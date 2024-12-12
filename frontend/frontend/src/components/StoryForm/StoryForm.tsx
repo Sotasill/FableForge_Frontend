@@ -1,20 +1,30 @@
 import React, { useState } from 'react';
-import { useApi } from '../../hooks/useApi';
 import styles from './StoryForm.module.css';
 
 interface StoryFormProps {
-  onSubmit: (story: string) => void;
+  onSubmit: (text: string, image?: File) => void;
 }
 
 const StoryForm: React.FC<StoryFormProps> = ({ onSubmit }) => {
   const [text, setText] = useState('');
-  const { loading, error } = useApi();
+  const [image, setImage] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string>('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (text.trim()) {
-      onSubmit(text);
+      onSubmit(text, image || undefined);
       setText('');
+      setImage(null);
+      setPreview('');
     }
   };
 
@@ -24,12 +34,24 @@ const StoryForm: React.FC<StoryFormProps> = ({ onSubmit }) => {
         className={styles.textarea}
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="Введите вашу историю..."
+        placeholder="Напишите свою историю..."
         rows={5}
       />
-      {error && <div className={styles.error}>{error}</div>}
-      <button type="submit" className={styles.button} disabled={loading}>
-        {loading ? 'Отправка...' : 'Отправить'}
+      <div className={styles.imageInput}>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className={styles.fileInput}
+        />
+        {preview && (
+          <div className={styles.preview}>
+            <img src={preview} alt="Preview" />
+          </div>
+        )}
+      </div>
+      <button type="submit" className={styles.button}>
+        Создать историю
       </button>
     </form>
   );

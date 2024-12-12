@@ -10,6 +10,7 @@ interface Story {
   id: string;
   title: string;
   text: string;
+  imageUrl: string;
   audioUrl: string;
   createdAt: string;
   author: string;
@@ -18,9 +19,10 @@ interface Story {
 const MOCK_STORIES: Story[] = [
   {
     id: '1',
-    title: 'Первая история',
-    text: 'Текст первой истории...',
-    audioUrl: '',
+    title: 'История 1',
+    text: 'Это первая тестовая история с изображением и аудио...',
+    imageUrl: 'https://picsum.photos/600/400',
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
     createdAt: new Date().toISOString(),
     author: 'Автор 1'
   },
@@ -63,6 +65,7 @@ const HomePage: React.FC = () => {
         id: Date.now().toString(),
         title: 'Новая история',
         text,
+        imageUrl: '',
         audioUrl: '',
         createdAt: new Date().toISOString(),
         author: 'Текущий пользователь'
@@ -89,6 +92,7 @@ const HomePage: React.FC = () => {
               key={story.id}
               title={story.title}
               text={story.text}
+              imageUrl={story.imageUrl}
               audioUrl={story.audioUrl}
               createdAt={story.createdAt}
               author={story.author}

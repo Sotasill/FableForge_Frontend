@@ -5,6 +5,7 @@ import styles from './StoryCard.module.css';
 interface StoryCardProps {
   title: string;
   text: string;
+  imageUrl?: string;
   audioUrl?: string;
   createdAt: string;
   author: string;
@@ -13,15 +14,26 @@ interface StoryCardProps {
 const StoryCard: React.FC<StoryCardProps> = ({
   title,
   text,
+  imageUrl,
   audioUrl,
   createdAt,
   author
 }) => {
   return (
     <div className={styles.card}>
-      <h3 className={styles.title}>{title}</h3>
-      <p className={styles.text}>{text}</p>
-      {audioUrl && <AudioPlayer src={audioUrl} />}
+      <div className={styles.content}>
+        <p className={styles.text}>{text}</p>
+        {imageUrl && (
+          <div className={styles.image}>
+            <img src={imageUrl} alt={title} />
+          </div>
+        )}
+      </div>
+      {audioUrl && (
+        <div className={styles.audio}>
+          <AudioPlayer src={audioUrl} />
+        </div>
+      )}
       <div className={styles.footer}>
         <span className={styles.author}>{author}</span>
         <span className={styles.date}>
