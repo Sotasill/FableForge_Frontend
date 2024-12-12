@@ -1,0 +1,130 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.section h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.setting {
+  margin-bottom: 1.5rem;
+}
+
+.setting:last-child {
+  margin-bottom: 0;
+}
+
+.setting label {
+  display: block;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.select {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #646cff;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.checkbox input {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.description {
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  margin-left: 1.8rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.button {
+  padding: 1rem 2rem;
+  background-color: #646cff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.button:hover {
+  background-color: #535bf2;
+  transform: translateY(-2px);
+}
+
+.secondary {
+  background-color: transparent;
+  border: 2px solid #646cff;
+  color: #646cff;
+}
+
+.secondary:hover {
+  background-color: #646cff;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .button {
+    width: 100%;
+  }
+}

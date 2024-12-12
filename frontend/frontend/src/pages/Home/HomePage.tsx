@@ -1,103 +1,72 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../store/AuthContext';
-import StoryForm from '../../components/StoryForm/StoryForm';
-import StoryCard from '../../components/StoryCard/StoryCard';
-import { axiosInstance } from '../../services/api/axios';
-import { useApi } from '../../hooks/useApi';
+import StoryGenerator from '../../components/StoryGenerator/StoryGenerator';
 import styles from './HomePage.module.css';
 
-interface Story {
-  id: string;
-  title: string;
-  text: string;
-  imageUrl: string;
-  audioUrl: string;
-  createdAt: string;
-  author: string;
-}
-
-const MOCK_STORIES: Story[] = [
-  {
-    id: '1',
-    title: 'История 1',
-    text: 'Это первая тестовая история с изображением и аудио...',
-    imageUrl: 'https://picsum.photos/600/400',
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-    createdAt: new Date().toISOString(),
-    author: 'Автор 1'
-  },
-  {
-    id: '2',
-    title: 'Вторая история',
-    text: 'Текст второй истории...',
-    audioUrl: '',
-    createdAt: new Date().toISOString(),
-    author: 'Автор 2'
-  }
-];
-
 const HomePage: React.FC = () => {
-  const [stories, setStories] = useState<Story[]>(MOCK_STORIES);
+  const navigate = useNavigate();
   const { auth } = useAuthContext();
-  const { loading, error } = useApi<Story>();
-
-  useEffect(() => {
-    loadStories();
-  }, []);
-
-  const loadStories = async () => {
-    try {
-      // Временно закомментируем реальный API-запрос
-      // const response = await axiosInstance.get('/stories');
-      // if (response.data) {
-      //   setStories(response.data);
-      // }
-      setStories(MOCK_STORIES);
-    } catch (err) {
-      console.error('Failed to load stories:', err);
-    }
-  };
-
-  const handleSubmitStory = async (text: string) => {
-    try {
-      // Временная имитация создания истории
-      const newStory: Story = {
-        id: Date.now().toString(),
-        title: 'Новая история',
-        text,
-        imageUrl: '',
-        audioUrl: '',
-        createdAt: new Date().toISOString(),
-        author: 'Текущий пользователь'
-      };
-      setStories(prev => [newStory, ...prev]);
-    } catch (err) {
-      console.error('Failed to create story:', err);
-    }
-  };
+  const [generating, setGenerating] = useState(false);
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>FableForge</h1>
-      {auth.isAuthenticated && (
-        <StoryForm onSubmit={handleSubmitStory} />
-      )}
-      {error && <div className={styles.error}>{error}</div>}
-      {loading ? (
-        <div className={styles.loading}>Загрузка историй...</div>
+      <div className={styles.hero}>
+        <h1 className={styles.title}>FableForge</h1>
+        <p className={styles.subtitle}>Создавайте уникальные истории с помощью ИИ</p>
+      </div>
+
+      <div className={styles.features}>
+        <div className={styles.feature}>
+          <div className={styles.featureIcon}>📝</div>
+          <h3>Генерация историй</h3>
+          <p>Создавайте уникальные истории на основе ваших идей</p>
+        </div>
+        <div className={styles.feature}>
+          <div className={styles.featureIcon}>🎨</div>
+          <h3>Иллюстрации</h3>
+          <p>Автоматическая генерация изображений для ваших историй</p>
+        </div>
+        <div className={styles.feature}>
+          <div className={styles.featureIcon}>🎧</div>
+          <h3>Озвучка</h3>
+          <p>Преобразование текста в реалистичную речь</p>
+        </div>
+      </div>
+
+      {auth.isAuthenticated ? (
+        <div className={styles.generateSection}>
+          <h2>Создать новую историю</h2>
+          <StoryGenerator 
+            onGenerating={(isGenerating) => setGenerating(isGenerating)} 
+          />
+          {generating && (
+            <div className={styles.generating}>
+              <div className={styles.spinner}></div>
+              <p>Генерируем вашу историю...</p>
+            </div>
+          )}
+        </div>
       ) : (
-        <div className={styles.stories}>
-          {stories.map(story => (
-            <StoryCard
-              key={story.id}
-              title={story.title}
-              text={story.text}
-              imageUrl={story.imageUrl}
-              audioUrl={story.audioUrl}
-              createdAt={story.createdAt}
-              author={story.author}
-            />
-          ))}
+        <div className={styles.authPrompt}>
+          <h2>Начните создавать истории прямо сейчас!</h2>
+          <div className={styles.authDescription}>
+            <p>FableForge позволяет:</p>
+            <ul>
+              <li>Создавать уникальные истории с помощью ИИ</li>
+              <li>Генерировать красочные иллюстрации</li>
+              <li>Получать профессиональную озвучку</li>
+              <li>Делиться историями с другими</li>
+            </ul>
+          </div>
+          <div className={styles.authButtons}>
+            <button onClick={() => navigate('/login')} className={styles.button}>
+              Войти
+            </button>
+            <button onClick={() => navigate('/signup')} className={`${styles.button} ${styles.primaryButton}`}>
+              Начать бесплатно
+            </button>
+          </div>
         </div>
       )}
     </div>
