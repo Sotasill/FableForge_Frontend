@@ -1,0 +1,37 @@
+.player {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.playButton {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: #646cff;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progressBar {
+  flex: 1;
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+}
+
+.progress {
+  position: absolute;
+  height: 100%;
+  background: #646cff;
+  border-radius: 2px;
+} 
