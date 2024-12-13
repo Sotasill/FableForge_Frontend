@@ -6,6 +6,8 @@ import SettingsPage from '../pages/Settings/SettingsPage';
 import Login from '../pages/Auth/Login';
 import SignUp from '../pages/Auth/SignUp';
 import ProtectedRoute from './ProtectedRoute';
+import TestPage from '../pages/TestPage/TestPage';
+import ImageTestPage from '../pages/ImageTestPage/ImageTestPage';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -23,6 +25,8 @@ const AppRoutes: React.FC = () => {
           </ProtectedRoute>
         }
       />
+      <Route path="/test" element={<TestPage />} />
+      <Route path="/image-test" element={<ImageTestPage />} />
     </Routes>
   );
 };

@@ -1,63 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { storyApi } from '../../services/api/storyApi';
 import { AudioPlayer } from '../../components/AudioPlayer/AudioPlayer';
 import styles from './StoryResultPage.module.css';
-
-interface GeneratedStory {
-  id: string;
-  title: string;
-  text: string;
-  imageUrl: string;
-  audioUrl: string;
-  genre: string;
-  createdAt: string;
-  status: 'generating' | 'completed' | 'failed';
-}
+import { GenerateStoryResponse } from '../../types';
 
 const StoryResultPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [story, setStory] = useState<GeneratedStory | null>(null);
+  const [story, setStory] = useState<GenerateStoryResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [regenerating, setRegenerating] = useState(false);
 
   useEffect(() => {
+    const loadStory = async () => {
+      if (!id) return;
+
+      try {
+        setLoading(true);
+        const data = await storyApi.getStory(id);
+        setStory(data);
+      } catch (err) {
+        setError('Не удалось загрузить историю');
+        console.error('Failed to load story:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     loadStory();
   }, [id]);
-
-  const loadStory = async () => {
-    try {
-      setLoading(true);
-      // Имитация загрузки с сервера
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      setStory({
-        id: id || '1',
-        title: 'Приключения в волшебном лесу',
-        text: `В глубине древнего леса, где деревья шептались друг с другом на забытом языке природы, жила маленькая фея по имени Лилия. Она была необычной феей – её крылья переливались всеми цветами радуги, а волосы светились в темноте мягким серебристым светом.
-
-Однажды утром Лилия обнаружила, что все цветы в лесу перестали цвести. Это было странно, ведь сейчас был разгар весны. Она решила разгадать эту загадку и отправилась в путешествие по лесу.
-
-По пути она встретила мудрую сову, которая рассказала ей о древнем кристалле, хранящем силу цветения. Кристалл был похищен злым троллем, который хотел использовать его силу для своих темных целей.
-
-Лилия не испугалась и решила найти тролля. После долгих поисков она обнаружила его пещеру, спрятанную за водопадом. Используя свою волшебную пыльцу, она усыпила тролля и вернула кристалл на его законное место.
-
-Как только кристалл оказался на своем месте, лес вновь ожил – цветы распустились, наполняя воздух сладким ароматом, а деревья зашелестели листвой, благодаря маленькую фею за её храбрость.
-
-С тех пор Лилию стали называть Хранительницей Цветов, и каждую весну лесные жители устраивали праздник в её честь, украшая деревья разноцветными фонариками, которые напоминали её волшебные крылья.`,
-        imageUrl: 'https://picsum.photos/800/400',
-        audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-        genre: 'fantasy',
-        createdAt: new Date().toISOString(),
-        status: 'completed'
-      });
-      setLoading(false);
-    } catch (err) {
-      setError('Не удалось загрузить историю');
-      setLoading(false);
-    }
-  };
 
   const handleRegenerate = async () => {
     try {

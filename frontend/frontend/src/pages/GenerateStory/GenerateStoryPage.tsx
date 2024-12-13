@@ -1,36 +1,13 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import StoryForm from '../../components/StoryForm/StoryForm';
-import styles from './GenerateStoryPage.module.css';
+import React from 'react';
+import StoryGenerator from '../../components/StoryGenerator/StoryGenerator';
 
 const GenerateStoryPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [generating, setGenerating] = useState(false);
-
-  const handleSubmit = async (text: string, image?: File) => {
-    setGenerating(true);
-    try {
-      // Здесь будет логика генерации истории
-      const storyId = '123'; // Временный ID
-      navigate(`/result/${storyId}`);
-    } catch (error) {
-      console.error('Failed to generate story:', error);
-    } finally {
-      setGenerating(false);
-    }
-  };
-
-  return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Создать новую историю</h1>
-      <StoryForm onSubmit={handleSubmit} />
-      {generating && (
-        <div className={styles.generating}>
-          Генерируем вашу историю...
+    return (
+        <div>
+            <h1>Генерация истории</h1>
+            <StoryGenerator />
         </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default GenerateStoryPage; 

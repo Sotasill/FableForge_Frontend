@@ -68,6 +68,14 @@
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+}
+
+.generateSection h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
 .authPrompt {
@@ -144,6 +152,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgba(100, 108, 255, 0.05);
+  border-radius: 8px;
   margin-top: 2rem;
 }
 
@@ -157,9 +169,31 @@
   margin-bottom: 1rem;
 }
 
+.generating p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.settingsButton {
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.settingsButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 768px) {
@@ -186,4 +220,31 @@
   .button {
     width: 100%;
   }
+
+  .settingsButton {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .generateSection {
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+
+  .generateSection h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .generating {
+    padding: 1.5rem;
+  }
+}
+
+.testSection {
+  margin-top: 40px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

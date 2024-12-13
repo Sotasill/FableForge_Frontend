@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../../store/AuthContext';
 import StoryGenerator from '../../components/StoryGenerator/StoryGenerator';
+import ApiTester from '../../components/ApiTester/ApiTester';
 import styles from './HomePage.module.css';
+import { Link } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
-  const navigate = useNavigate();
-  const { auth } = useAuthContext();
   const [generating, setGenerating] = useState(false);
 
   return (
@@ -34,41 +32,30 @@ const HomePage: React.FC = () => {
         </div>
       </div>
 
-      {auth.isAuthenticated ? (
-        <div className={styles.generateSection}>
-          <h2>Создать новую историю</h2>
-          <StoryGenerator 
-            onGenerating={(isGenerating) => setGenerating(isGenerating)} 
-          />
-          {generating && (
-            <div className={styles.generating}>
-              <div className={styles.spinner}></div>
-              <p>Генерируем вашу историю...</p>
-            </div>
-          )}
-        </div>
-      ) : (
-        <div className={styles.authPrompt}>
-          <h2>Начните создавать истории прямо сейчас!</h2>
-          <div className={styles.authDescription}>
-            <p>FableForge позволяет:</p>
-            <ul>
-              <li>Создавать уникальные истории с помощью ИИ</li>
-              <li>Генерировать красочные иллюстрации</li>
-              <li>Получать профессиональную озвучку</li>
-              <li>Делиться историями с другими</li>
-            </ul>
+      <div className={styles.generateSection}>
+        <h2>Создать новую историю</h2>
+        <StoryGenerator 
+          onGenerating={(isGenerating) => setGenerating(isGenerating)}
+        />
+        {generating && (
+          <div className={styles.generating}>
+            <div className={styles.spinner}></div>
+            <p>Генерируем вашу историю...</p>
           </div>
-          <div className={styles.authButtons}>
-            <button onClick={() => navigate('/login')} className={styles.button}>
-              Войти
-            </button>
-            <button onClick={() => navigate('/signup')} className={`${styles.button} ${styles.primaryButton}`}>
-              Начать бесплатно
-            </button>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
+
+      <div className={styles.testSection}>
+        <ApiTester />
+      </div>
+
+      <Link to="/test">
+        <button>Перейти к тестированию возможностей приложения</button>
+      </Link>
+
+      <Link to="/image-test">
+        <button>Перейти к тестированию генерации изображений</button>
+      </Link>
     </div>
   );
 };
